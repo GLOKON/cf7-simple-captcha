@@ -35,7 +35,7 @@ add_action( 'wpcf7_init', 'wpcf7_simple_captcha_register_service', 40, 0 );
 function wpcf7_simple_captcha_register_service() {
     $integration = WPCF7_Integration::get_instance();
 
-    $integration->add_service( 'simple-captcha',
+    $integration->add_service('simple-captcha',
         WPCF7_SIMPLE_CAPTCHA::get_instance()
     );
 }

@@ -89,8 +89,8 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
 
     public function link() {
         echo wpcf7_link(
-            'https://github.com/GLOKON/cf7-simple-captcha',
-            'github.com/GLOKON/cf7-simple-captcha'
+            'https://github.com/GLOKON/wpcf7-simple-captcha',
+            'github.com/GLOKON/wpcf7-simple-captcha'
        );
     }
 
@@ -143,7 +143,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
         echo sprintf(
             '<p><strong>%s</strong></p>',
             wpcf7_link(
-                __('https://github.com/GLOKON/cf7-simple-captcha', 'contact-form-7'),
+                __('https://github.com/GLOKON/wpcf7-simple-captcha', 'contact-form-7'),
                 __('Simple CAPTCHA', 'contact-form-7')
            )
        );

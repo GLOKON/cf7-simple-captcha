@@ -4,7 +4,7 @@ Donate link: https://glokon.me/
 Tags: cf7 simple captcha, simple captcha cf7, captcha, form, cf7
 Requires at least: 5.1
 Tested up to: 6.6
-Stable tag: trunk
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
