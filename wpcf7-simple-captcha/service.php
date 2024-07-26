@@ -235,19 +235,21 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
             <table class="form-table">
                 <tbody>
                 <tr>
-                    <th scope="row"><label for="is_enabled"><?php echo esc_html(__('Active', 'contact-form-7')); ?></label></th>
-                    <td><?php
-                        echo sprintf(
-                            '<input type="checkbox" aria-required="true" value="%1$s" id="is_enabled" name="is_enabled" class="regular-text code" />',
-                            esc_attr($this->option('is_enabled'))
+                    <th scope="row"><label for="is_enabled"><?php echo esc_html(__('Use Integration?', 'contact-form-7')); ?></label></th>
+                    <td><select id="is_enabled" name="is_enabled" class="regular-text code"><?php
+                        echo sprintf('<option value="true"%s>Yes</option>',
+                            esc_attr($this->option('is_enabled') ? ' selected="selected"' : '')
                         );
-                        ?></td>
+                        echo sprintf('<option value="false"%s>No</option>',
+                            esc_attr(!$this->option('is_enabled') ? ' selected="selected"' : '')
+                        );
+                        ?></select></td>
                 </tr>
                 <tr>
                     <th scope="row"><label for="captcha_fields"><?php echo esc_html(__('CAPTCHA Field(s) (Separate multiple fields by a `,`)', 'contact-form-7')); ?></label></th>
                     <td><?php
                         echo sprintf(
-                            '<input type="text" aria-required="true" value="%1$s" id="captcha_fields" name="captcha_fields" class="regular-text code" />',
+                            '<input type="text" aria-required="false" value="%1$s" id="captcha_fields" name="captcha_fields" class="regular-text code" />',
                             esc_attr(implode(', ', $this->option('captcha_fields', [])))
                         );
                         ?></td>
@@ -256,7 +258,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
                     <th scope="row"><label for="nonce_field"><?php echo esc_html(__('Nonce Field', 'contact-form-7')); ?></label></th>
                     <td><?php
                         echo sprintf(
-                            '<input type="text" aria-required="true" value="%1$s" id="nonce_field" name="nonce_field" class="regular-text code" />',
+                            '<input type="text" aria-required="false" value="%1$s" id="nonce_field" name="nonce_field" class="regular-text code" />',
                             esc_attr($this->option('nonce_field'))
                         );
                         ?></td>
