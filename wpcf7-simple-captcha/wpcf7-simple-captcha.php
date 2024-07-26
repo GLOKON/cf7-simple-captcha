@@ -70,7 +70,7 @@ function wpcf7_simple_captcha_add_hidden_fields($fields) {
     }
 
     if (in_the_loop()) {
-        return array_merge($fields, $service->generate_hidden_fields((int)get_the_ID()));
+        return array_merge($fields, $service->generate_hidden_fields(intval(get_the_ID())));
     } else {
         return array_merge($fields, $service->generate_hidden_fields());
     }
@@ -96,7 +96,7 @@ function wpcf7_simple_captcha_verify_response($spam, $submission) {
     $nonceField = $service->get_nonce_field();
     $captchaFields = $service->get_captcha_fields();
 
-    $formId = trim($_POST['_wpcf7_container_post'] ?? '');
+    $formId = intval(trim($_POST['_wpcf7_container_post'] ?? ''));
     $nonce = trim($_POST[$nonceField] ?? '');
     $captcha = '';
     foreach ($captchaFields as $captchaField) {
