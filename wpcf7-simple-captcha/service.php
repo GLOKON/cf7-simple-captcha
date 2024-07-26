@@ -20,7 +20,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
 
 
     private function __construct() {
-        $this->options = WPCF7::get_option('simple-captcha');
+        $this->options = get_option('wpcf7_simple_captcha_options');
 
         if (empty($this->options) || !is_array($this->options)) {
             $this->init_options();
@@ -29,12 +29,12 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
 
 
     public function get_captcha_fields() {
-        return $this->get_option('captcha_fields', []);
+        return $this->option('captcha_fields', []);
     }
 
 
     public function get_nonce_field() {
-        return $this->get_option('nonce_field');
+        return $this->option('nonce_field');
     }
 
 
@@ -43,7 +43,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
             '_wp_http_referer' => esc_url(remove_query_arg('_wp_http_referer')),
         ];
 
-        $nonceField = $this->get_option('nonce_field');
+        $nonceField = $this->option('nonce_field');
         if (!empty($nonceField)) {
             $fieldName = esc_attr($nonceField);
             $fields[$fieldName] = wp_create_nonce('wpcf7_sc');
@@ -74,7 +74,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
 
 
     public function is_active() {
-        return $this->get_option('is_enabled');
+        return $this->option('is_enabled');
     }
 
 
@@ -104,14 +104,14 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
                 $redirect_to = $this->menu_page_url('action=setup');
             } else {
                 $isEnabled = trim($_POST['is_enabled'] ?? 'false') == 'true';
-                $captchaFields = trim($_POST['captcha_field'] ?? '');
+                $captchaFields = trim($_POST['captcha_fields'] ?? '');
                 $nonceField = trim($_POST['nonce_field'] ?? '');
 
                 if (!empty($nonceField)) {
                     $this->options['is_enabled'] = $isEnabled;
-                    $this->options['captcha_field'] = [];
+                    $this->options['captcha_fields'] = [];
                     if (!empty($captchaFields)) {
-                        $this->options['captcha_field'] = array_filter(array_map('trim', explode(',', $captchaFields)));
+                        $this->options['captcha_fields'] = array_filter(array_map('trim', explode(',', $captchaFields)));
                     }
 
                     $this->options['nonce_field'] = $nonceField;
@@ -192,7 +192,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
     }
 
 
-    private function get_option($option, $default = false) {
+    private function option($option, $default = false) {
         if (!in_array($option, $this->options)) {
             return $default;
         }
@@ -218,7 +218,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
 
 
     private function save_data() {
-        WPCF7::update_option('simple-captcha', $this->options);
+        update_option('wpcf7_simple_captcha_options', $this->options);
     }
 
 
@@ -239,16 +239,16 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
                     <td><?php
                         echo sprintf(
                             '<input type="checkbox" aria-required="true" value="%1$s" id="is_enabled" name="is_enabled" class="regular-text code" />',
-                            esc_attr($this->get_option('is_enabled'))
+                            esc_attr($this->option('is_enabled'))
                         );
                         ?></td>
                 </tr>
                 <tr>
-                    <th scope="row"><label for="captcha_field"><?php echo esc_html(__('CAPTCHA Field(s) (Separate multiple fields by a `,`)', 'contact-form-7')); ?></label></th>
+                    <th scope="row"><label for="captcha_fields"><?php echo esc_html(__('CAPTCHA Field(s) (Separate multiple fields by a `,`)', 'contact-form-7')); ?></label></th>
                     <td><?php
                         echo sprintf(
-                            '<input type="text" aria-required="true" value="%1$s" id="captcha_field" name="captcha_field" class="regular-text code" />',
-                            esc_attr(implode(', ', $this->get_option('captcha_field', [])))
+                            '<input type="text" aria-required="true" value="%1$s" id="captcha_fields" name="captcha_fields" class="regular-text code" />',
+                            esc_attr(implode(', ', $this->option('captcha_fields', [])))
                         );
                         ?></td>
                 </tr>
@@ -257,7 +257,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
                     <td><?php
                         echo sprintf(
                             '<input type="text" aria-required="true" value="%1$s" id="nonce_field" name="nonce_field" class="regular-text code" />',
-                            esc_attr($this->get_option('nonce_field'))
+                            esc_attr($this->option('nonce_field'))
                         );
                         ?></td>
                 </tr>
