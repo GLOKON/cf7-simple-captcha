@@ -43,13 +43,25 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
             '_wp_http_referer' => esc_url(remove_query_arg('_wp_http_referer')),
         ];
 
-        $nonceField = $this->option('nonce_field');
+        $nonceField = $this->get_nonce_field();
         if (!empty($nonceField)) {
-            $fieldName = esc_attr($nonceField);
-            $fields[$fieldName] = wp_create_nonce('wpcf7_sc');
+            $fields[esc_attr($nonceField)] = wp_create_nonce('wpcf7_sc');
         }
 
         return $fields;
+    }
+
+
+    public function generate_human_hidden_fields() {
+        $html = '';
+
+        $captchaFields = $this->get_captcha_fields();
+        foreach ($captchaFields as $captchaField) {
+            $field = esc_attr($captchaField);
+            $fields[$field] = '<input type="text" id="' . $field . '" name="' . $field . '" value="" style="display:none" />';
+        }
+
+        return $html;
     }
 
 

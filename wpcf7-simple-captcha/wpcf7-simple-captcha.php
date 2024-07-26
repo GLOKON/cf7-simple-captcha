@@ -41,6 +41,22 @@ function wpcf7_simple_captcha_register_service() {
 }
 
 
+add_filter('wpcf7_form_elements', 'wpcf7_simple_captcha_add_form_elements', 100, 1);
+
+/**
+ * Adds human hidden, but bot visible form fields for Simple CAPTCHA.
+ */
+function wpcf7_simple_captcha_add_form_elements($elements) {
+    $service = WPCF7_SIMPLE_CAPTCHA::get_instance();
+
+    if (!$service->is_active()) {
+        return $elements;
+    }
+
+    return ($elements . $service->generate_human_hidden_fields());
+}
+
+
 add_filter('wpcf7_form_hidden_fields', 'wpcf7_simple_captcha_add_hidden_fields', 100, 1);
 
 /**
