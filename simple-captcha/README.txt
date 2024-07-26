@@ -5,8 +5,8 @@ Tags: cf7 simple captcha, simple captcha cf7, captcha, form, cf7
 Requires at least: 5.1
 Tested up to: 6.6
 Stable tag: trunk
-License: MIT
-License URI: https://mit-license.org/
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 An addon for CF7 that enables a non-js and non-data based CAPTCHA solution, by using a "nonce" and a hidden field.
 

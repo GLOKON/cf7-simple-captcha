@@ -5,8 +5,8 @@
 * Version:      1.0.0
 * Author:       Daniel McAssey
 * Author URI:   https://glokon.me
-* License:      MIT
-* License URI:  https://mit-license.org/
+* License:      GPLv2 or later
+* License URI:  https://www.gnu.org/licenses/gpl-2.0.html
 * Contributors: dmcassey
 * Requires at least: 5.1
 *
