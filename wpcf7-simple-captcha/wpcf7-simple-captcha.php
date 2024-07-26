@@ -69,7 +69,11 @@ function wpcf7_simple_captcha_add_hidden_fields($fields) {
         return $fields;
     }
 
-    return array_merge($fields, $service->generate_hidden_fields());
+    if (in_the_loop()) {
+        return array_merge($fields, $service->generate_hidden_fields((int)get_the_ID()));
+    } else {
+        return array_merge($fields, $service->generate_hidden_fields());
+    }
 }
 
 
@@ -89,16 +93,17 @@ function wpcf7_simple_captcha_verify_response($spam, $submission) {
         return $spam;
     }
 
-    $captchaFields = $service->get_captcha_fields();
     $nonceField = $service->get_nonce_field();
+    $captchaFields = $service->get_captcha_fields();
 
+    $formId = trim($_POST['_wpcf7_container_post'] ?? '');
     $nonce = trim($_POST[$nonceField] ?? '');
     $captcha = '';
     foreach ($captchaFields as $captchaField) {
         $captcha .= trim($_POST[$captchaField] ?? '');
     }
 
-    if ($service->verify($nonce, $captcha)) {
+    if ($service->verify($nonce, $captcha, $formId)) {
         $spam = false; // Human
     } else {
         $spam = true; // Bot
@@ -116,6 +121,14 @@ function wpcf7_simple_captcha_verify_response($spam, $submission) {
                 'agent' => 'simple-captcha',
                 'reason' => __(
                     'Simple CAPTCHA response CAPTCHA fields have been set.',
+                    'contact-form-7'
+                ),
+            ]);
+        } else {
+            $submission->add_spam_log([
+                'agent' => 'simple-captcha',
+                'reason' => __(
+                    'Simple CAPTCHA response nonce could not be verified.',
                     'contact-form-7'
                 ),
             ]);

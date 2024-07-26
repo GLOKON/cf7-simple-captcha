@@ -38,14 +38,14 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
     }
 
 
-    public function generate_hidden_fields() {
+    public function generate_hidden_fields($formId = 0) {
         $fields = [
             '_wp_http_referer' => esc_url(remove_query_arg('_wp_http_referer')),
         ];
 
         $nonceField = $this->get_nonce_field();
         if (!empty($nonceField)) {
-            $fields[esc_attr($nonceField)] = wp_create_nonce('wpcf7_sc');
+            $fields[esc_attr($nonceField)] = wp_create_nonce('wpcf7_sc_' . $formId);
         }
 
         return $fields;
@@ -58,14 +58,14 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
         $captchaFields = $this->get_captcha_fields();
         foreach ($captchaFields as $captchaField) {
             $field = esc_attr($captchaField);
-            $fields[$field] = '<input type="text" id="' . $field . '" name="' . $field . '" value="" style="display:none" />';
+            $html .= '<input type="text" id="' . $field . '" name="' . $field . '" value="" style="display:none" autocomplete="off" />';
         }
 
         return $html;
     }
 
 
-    public function verify($nonce, $captcha) {
+    public function verify($nonce, $captcha, $formId) {
         if (!$this->is_active()) {
             return true;
         }
@@ -76,7 +76,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
         }
 
         // Check to see the nonce is valid
-        return wp_verify_nonce($nonce, 'wpcf7_sc');
+        return wp_verify_nonce($nonce, 'wpcf7_sc_' . $formId);
     }
 
 
