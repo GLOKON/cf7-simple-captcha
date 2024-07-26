@@ -193,7 +193,7 @@ class WPCF7_SIMPLE_CAPTCHA extends WPCF7_Service {
 
 
     private function option($option, $default = false) {
-        if (!in_array($option, $this->options)) {
+        if (!array_key_exists($option, $this->options)) {
             return $default;
         }
 
